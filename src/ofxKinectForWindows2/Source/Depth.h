@@ -30,6 +30,10 @@ namespace ofxKinectForWindows2 {
 
 			ofFloatPixels getColorToWorldMap(int colorImageWidth = 1920, int colorImageHeight = 1080) const;
 			ofFloatPixels getDepthToWorldMap() const;
+
+			//added by mike
+			vector<int> faceIndices;
+
 		protected:
 			ICoordinateMapper * coordinateMapper;
 		};

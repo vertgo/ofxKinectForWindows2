@@ -1,4 +1,5 @@
 #include "ofApp.h"
+#include "ofMain.h"
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -24,7 +25,7 @@ void ofApp::draw(){
 	cam.begin();
 	ofPushMatrix();
 	ofScale(100, 100, 100);
-
+	ofBackground(0, 0, 0);
 	shader.begin();
 	shader.setUniform1i("uWidth", kinect.getBodyIndexSource()->getWidth());
 	//shader.setUniformTexture("uBodyIndexTex", kinect.getBodyIndexSource()->getTexture(), 1);
@@ -36,7 +37,10 @@ void ofApp::draw(){
 
 	ofSetColor(255);
 	ofMesh mesh = kinect.getDepthSource()->getMesh(bStitchFaces, ofxKFW2::Source::Depth::PointCloudOptions::ColorCamera);
+	//mesh.setMode(OF_PRIMITIVE_TRIANGLES);
+	
 	mesh.draw();
+
 
 	kinect.getColorSource()->getTexture().unbind(2);
 	kinect.getBodyIndexSource()->getTexture().unbind(1);
@@ -54,11 +58,16 @@ void ofApp::draw(){
 	ss << ofToString(ofGetFrameRate(), 2) << " FPS" << endl;
 	ss << "Stitch [F]aces: " << (bStitchFaces? "ON":"OFF") << endl;
 	ss << "Draw [B]odies: " << (bDrawBodies? "ON":"OFF") << endl;
+	ofSetColor(255, 255, 255);
 	ofDrawBitmapString(ss.str(), 10, 20);
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+
+	double moveAmt = 100.f;
+	ofVec3f pos = cam.getPosition();
+
 	switch (key) {
 	case 'b':
 		bDrawBodies ^= 1;
@@ -66,6 +75,15 @@ void ofApp::keyPressed(int key){
 	case 'f':
 		bStitchFaces ^= 1;
 		break;
+	case 'a':
+		
+		pos.x -= moveAmt;
+		cam.setPosition(pos);
+		break;
+	case 'd':
+		
+		pos.x += moveAmt;
+		cam.setPosition(pos);
 	}
 }
 
