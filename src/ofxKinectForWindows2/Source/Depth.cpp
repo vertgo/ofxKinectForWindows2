@@ -63,13 +63,13 @@ namespace ofxKinectForWindows2 {
 			this->coordinateMapper->MapDepthFrameToCameraSpace(frameSize, this->pixels.getPixels(), frameSize, (CameraSpacePoint*) mesh.getVerticesPointer());
 
 			if (opts.stitchFaces) {
-				faceIndices.clear();
+				//faceIndices.clear();
 
 				
-				faceIndices.resize(this->getWidth() * this->getHeight(), -1);
+				//faceIndices.resize(this->getWidth() * this->getHeight(), -1);
 
 
-				unsigned numFaces = 0;
+				//unsigned numFaces = 0;
 				int steps = opts.steps;
 				for(int i=0; i<width-steps; i+=steps) {
 					for(int j=0; j<height-steps; j+=steps) {
@@ -91,8 +91,8 @@ namespace ofxKinectForWindows2 {
 							mesh.addIndices(indices, 3);
 
 							//added by mike
-							faceIndices[topLeft] = faceIndices[bottomLeft] = faceIndices[topRight] = numFaces;
-							numFaces++;
+							//faceIndices[topLeft] = faceIndices[bottomLeft] = faceIndices[topRight] = numFaces;
+							//numFaces++;
 							
 						}
 
@@ -102,13 +102,13 @@ namespace ofxKinectForWindows2 {
 							&& abs(vBR.z - vBL.z) < opts.facesMaxLength) {
 							const ofIndexType indices[3] = {topRight, bottomRight, bottomLeft};
 							mesh.addIndices(indices, 3);
-							faceIndices[topRight] = faceIndices[bottomRight] = faceIndices[bottomLeft] = numFaces;
-							numFaces++;
+							//faceIndices[topRight] = faceIndices[bottomRight] = faceIndices[bottomLeft] = numFaces;
+							//numFaces++;
 						}
 					}
 				}
 
-				cout << "numFaces:" << numFaces << endl;
+				//cout << "numFaces:" << numFaces << endl;
 			}
 
 			switch(opts.textureCoordinates) {

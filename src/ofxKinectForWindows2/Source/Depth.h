@@ -32,7 +32,7 @@ namespace ofxKinectForWindows2 {
 			ofFloatPixels getDepthToWorldMap() const;
 
 			//added by mike
-			vector<int> faceIndices;
+			//vector<int> faceIndices;
 
 		protected:
 			ICoordinateMapper * coordinateMapper;
