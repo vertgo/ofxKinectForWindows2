@@ -51,6 +51,11 @@ namespace ofxKinectForWindows2 {
 
 		//----------
 		ofMesh Depth::getMesh(const PointCloudOptions &opts) {
+
+			//hackbymike
+			const double zThreshold = 1.5;
+			const double yThreshold = .375 ;
+
 			const int width = this->getWidth();
 			const int height = this->getHeight();
 			const auto frameSize = width * height;
@@ -78,12 +83,37 @@ namespace ofxKinectForWindows2 {
 						auto bottomLeft = topLeft + width * steps;
 						auto bottomRight = bottomLeft + steps;
 						
-						const ofVec3f & vTL = vertices[topLeft];
-						const ofVec3f & vTR = vertices[topRight];
-						const ofVec3f & vBL = vertices[bottomLeft];
-						const ofVec3f & vBR = vertices[bottomRight];
+						ofVec3f & vTL = vertices[topLeft];
+						ofVec3f & vTR = vertices[topRight];
+						ofVec3f & vBL = vertices[bottomLeft];
+						ofVec3f & vBR = vertices[bottomRight];
 
 						//upper left triangle
+						if (vTL.z > zThreshold || vTL.y > yThreshold ){
+							vTL.z = INFINITY;
+							if (vTL.y > yThreshold)
+								vTL.y = INFINITY;
+							//vTL.y = INFINITY;
+						}
+						if (vTR.z > zThreshold || vTL.y > yThreshold){
+							vTR.z = INFINITY;
+							if (vTR.y > yThreshold)
+								vTR.y = INFINITY;
+							//vTR.y = INFINITY;
+						}
+						if (vBL.z > zThreshold || vTL.y > yThreshold){
+							vBL.z = INFINITY;
+							if (vBL.y > yThreshold)
+								vBL.y = INFINITY;
+							//vBL.y = INFINITY;
+						}
+						if (vBR.z > zThreshold || vTL.y > yThreshold){
+							vBR.z = INFINITY;
+							if (vBR.y > yThreshold)
+								vBR.y = INFINITY;
+							//vBR.y = INFINITY;
+						}
+
 						if (vTL.z > 0 && vTR.z > 0 && vBL.z > 0
 							&& abs(vTL.z - vTR.z) < opts.facesMaxLength
 							&& abs(vTL.z - vBL.z) < opts.facesMaxLength) {
@@ -108,7 +138,7 @@ namespace ofxKinectForWindows2 {
 					}
 				}
 
-				cout << "numFaces:" << numFaces << endl;
+				//cout << "numFaces:" << numFaces << endl;
 			}
 
 			switch(opts.textureCoordinates) {
